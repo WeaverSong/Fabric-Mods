@@ -100,7 +100,7 @@ const Fabric = {
                     if (res !== undefined) return res;
                     res = func.call(this, ...arguments);
 
-                    let res2 = Fabric.fire("post" + p, { args: arguments, this: this, res: res });
+                    let res2 = Fabric.fire("post" + p, { args: arguments, this: this, result: res });
                     if (res2 === undefined) return res;
                     else return res2;
 
