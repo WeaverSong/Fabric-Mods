@@ -96,11 +96,11 @@ const Fabric = {
 
                     let res;
 
-                    res = Fabric.fire("pre" + p, { args: arguments, this: this });
+                    res = Fabric.fire("pre" + p, { arguments: arguments, this: this });
                     if (res !== undefined) return res;
                     res = func.call(this, ...arguments);
 
-                    let res2 = Fabric.fire("post" + p, { args: arguments, this: this, result: res });
+                    let res2 = Fabric.fire("post" + p, { arguments: arguments, this: this, result: res });
                     if (res2 === undefined) return res;
                     else return res2;
 
