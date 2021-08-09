@@ -85,27 +85,31 @@ const Fabric = {
                 Fabric.Wrap(thing[key], path, override);
             } else if (typeof (thing[key]) === "function")
             {
-                let p = path;
-
-                Fabric.addEvent("pre" + p);
-                Fabric.addEvent("post" + p);
-                let func = thing[key];
-
-                thing[key] = function ()
-                {
-
-                    let res;
-
-                    res = Fabric.fire("pre" + p, { arguments: arguments, this: this });
-                    if (res !== undefined) return res;
-                    res = func.call(this, ...arguments);
-
-                    let res2 = Fabric.fire("post" + p, { arguments: arguments, this: this, result: res });
-                    if (res2 === undefined) return res;
-                    else return res2;
-
-                }
+                Fabric.WrapFunc(key, thing, path);
             }
+        }
+    },
+    WrapFunc: function (name, object, path)
+    {
+        if (path[0] !== "." && path !== "") path = "." + path;
+        Fabric.addEvent("pre" + path);
+        Fabric.addEvent("post" + path);
+
+        let func = object[name];
+
+        object[name] = function ()
+        {
+
+            let res;
+
+            res = Fabric.fire("pre" + path, { arguments: arguments, this: this });
+            if (res !== undefined) return res;
+            res = func.call(this, ...arguments);
+
+            let res2 = Fabric.fire("post" + path, { arguments: arguments, this: this, result: res });
+            if (res2 === undefined) return res;
+            else return res2;
+
         }
     }
 };
