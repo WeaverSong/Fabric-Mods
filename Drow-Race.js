@@ -2,7 +2,7 @@
 
 //First wrap the required pieces, with the name "gs"
 //Also, note that it is important to give it the same name as it was originally, because Fabric will ignore requests to wrap things it has seen before, even if you want it wrapped under a new name.
-Fabric.Wrap(gs, "gs");
+Fabric.Proxy('createPlayerRaces', gs, "gs.createPlayerRaces");
 
 //Define the mod as an object. This mod is very simple, and only has one function inside the object. We still want to wrap it in an object so it doesn't collide with other mods who want to use the same hooks
 const DrowRace = {
@@ -10,7 +10,7 @@ const DrowRace = {
     {
         //Subscribe to an event withing the 'gs' object that we wrapped earlier.
         //Note that this is the 'post' event, not the 'pre' event. This is due to how the function works, and unlike the old modloader Fabric can't avoid that.
-        Fabric.subscribe(this, 'post.gs.createPlayerRaces', () =>
+        Fabric.subscribe(this, 'run.post.gs.createPlayerRaces', () =>
         {
             //Other than using a different event, the only differences are that we need a `name` and `niceName` properties, and that we have to add it to the race list manually. 
             gs.playerRaces.Drow = {
